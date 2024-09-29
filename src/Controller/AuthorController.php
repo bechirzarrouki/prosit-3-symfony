@@ -32,15 +32,29 @@ class AuthorController extends AbstractController
     public function listAuthors(): Response
     {    
         $authors = array(
-        array('id' => 1, 'picture' => '/image/Victor-Hugo.jpg','username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com ', 'nb_books' => 100),
-        array('id' => 2, 'picture' => '/image/william-shakespeare.jfif','username' => ' William Shakespeare', 'email' =>  ' william.shakespeare@gmail.com', 'nb_books' => 200 ),
-        array('id' => 3, 'picture' => '/image/Taha_hussein.jfif','username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300),
-        );
+            array('id' => 1, 'picture' => '/image/Victor-Hugo.png','username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com ', 'nb_books' => 100,'details'=>'http://127.0.0.1:8000/author/authorDetails/1'),
+            array('id' => 2, 'picture' => '/image/william-shakespeare.jfif','username' => ' William Shakespeare', 'email' =>  ' william.shakespeare@gmail.com', 'nb_books' => 200 ,'details'=>'http://127.0.0.1:8000/author/authorDetails/2'),
+            array('id' => 3, 'picture' => '/image/Taha_hussein.jfif','username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300,'details'=>'http://127.0.0.1:8000/author/authorDetails/3'),
+            );
         
 
         return $this->render('author/list.html.twig', [
             'controller_name' => 'AuthorController',
             'authors' => $authors,
+        ]);
+    }
+    #[Route('/author/authorDetails/{id}', name: 'apps3_author')]
+    public function authorDetails($id): Response
+    {    
+        $authors = array(
+        array('id' => 1, 'picture' => '/image/Victor-Hugo.png','username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com ', 'nb_books' => 100,'details'=>'http://127.0.0.1:8000/author/authorDetails/1'),
+        array('id' => 2, 'picture' => '/image/william-shakespeare.jfif','username' => ' William Shakespeare', 'email' =>  ' william.shakespeare@gmail.com', 'nb_books' => 200 ,'details'=>'http://127.0.0.1:8000/author/authorDetails/2'),
+        array('id' => 3, 'picture' => '/image/Taha_hussein.jfif','username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300,'details'=>'http://127.0.0.1:8000/author/authorDetails/3'),
+        );
+
+        return $this->render('author/showAuthor.html.twig', [
+            'controller_name' => 'AuthorController',
+            'author' => $authors[$id-1],
         ]);
     }
 }
