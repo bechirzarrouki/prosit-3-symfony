@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use App\Form\AuthorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -65,17 +67,35 @@ class AuthorController extends AbstractController
             'controller_name' => 'AuthorController',
         ]);
     }
-    #[Route('/formAddAuthors', name: 'apps3_author')]
-    public function formAddAuthors(ManagerRegistry $manager): Response
+    #[Route('/AddFormAuthors', name: 'apps3_author')]
+    public function AddFormAuthors(ManagerRegistry $manager,Request $req): Response
     {    
         $em=$manager->getManager();
         $authors=new Author();
-        $authors->setUsername("raed nefzi");
-        $authors->setEmail("raed.nefzi@esprit.tn");
+        $form=$this->createForm(AuthorType::class,$authors);
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid()){
         $em->persist($authors);
         $em->flush();
-        return $this->render('author/index.html.twig', [
-            'controller_name' => 'AuthorController',
+        }
+        return $this->renderForm('author/AddFormAuthors.html.twig', [
+            'formadd' => $form,
         ]);
     }
+    #[Route('/AddFormAuthors/{id}', name: 'apps3_author')]
+    public function UpdateFormAuthors(ManagerRegistry $manager,Request $req,$id): Response
+    {    
+        $em=$manager->getManager();
+        $authors=$req->find($id);
+        $form=$this->createForm(AuthorType::class,$authors);
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid()){
+        $em->persist($authors);
+        $em->flush();
+        }
+        return $this->renderForm('author/AddFormAuthors.html.twig', [
+            'formadd' => $form,
+        ]);
+    }
+    
 }
