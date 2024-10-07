@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AuthorRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
 class AuthorController extends AbstractController
 {   
     public $authors = array(
@@ -42,11 +45,37 @@ class AuthorController extends AbstractController
         ]);
     }
     #[Route('/author/authorDetails/{id}', name: 'apps3_author')]
-    public function authorDetails($id): Response
+    public function autho($id): Response
     {    
         return $this->render('author/showAuthor.html.twig', [
             'controller_name' => 'AuthorController',
             'author' => $this->authors[$id-1],
+        ]);
+    }
+    #[Route('/addauthors', name: 'apps4_author')]
+    public function addauthors(ManagerRegistry $manager): Response
+    {    
+        $em=$manager->getManager();
+        $authors=new Author();
+        $authors->setUsername("raed nefzi");
+        $authors->setEmail("raed.nefzi@esprit.tn");
+        $em->persist($authors);
+        $em->flush();
+        return $this->render('author/index.html.twig', [
+            'controller_name' => 'AuthorController',
+        ]);
+    }
+    #[Route('/formAddAuthors', name: 'apps3_author')]
+    public function formAddAuthors(ManagerRegistry $manager): Response
+    {    
+        $em=$manager->getManager();
+        $authors=new Author();
+        $authors->setUsername("raed nefzi");
+        $authors->setEmail("raed.nefzi@esprit.tn");
+        $em->persist($authors);
+        $em->flush();
+        return $this->render('author/index.html.twig', [
+            'controller_name' => 'AuthorController',
         ]);
     }
 }
