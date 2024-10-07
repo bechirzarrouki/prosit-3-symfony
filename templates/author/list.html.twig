@@ -16,11 +16,10 @@
 
 <tr>
 <td>{{author.id}}</td>
-<td><img src="{{   asset (author.picture ) }}" alt="image1"></td>
+
 <td>{{author.username|upper}}</td>
 <td>{{author.email}}</td>
-<td>{{author.nb_books}}</td>
-<td><a href="{{ asset (author.details) }}">details</a></td>
+
 <tr>
 {% endfor %}
 {% endif %}
